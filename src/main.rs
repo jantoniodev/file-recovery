@@ -2,7 +2,7 @@
     Paso a paso.
 
     1. Leer un archivo ✅
-    2. Leer un archivo binario
+    2. Leer un archivo binario ✅
     3. Encontrar una secuencia de bytes
     4. Leer completamente un archivo PNG
     5. Guardar la imagen encontrada en un archivo
@@ -14,7 +14,7 @@ use std::io::{self, Read};
 use std::fs::File;
 
 fn main() -> io::Result<()> {
-    let mut file = File::open("./Cargo.toml")?;
+    let mut file = File::open("./data.zip")?;
     let mut buffer: [u8; 1] = [0];
 
     loop {
@@ -22,7 +22,7 @@ fn main() -> io::Result<()> {
         if n == 0 {
             break;
         }
-        print!("{}", buffer[..n][0] as u8 as char);
+        print!("{:x}", buffer[..n][0]);
     }
 
     Ok(())
