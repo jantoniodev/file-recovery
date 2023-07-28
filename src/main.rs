@@ -9,6 +9,9 @@
     6. Refactorizar y ordenar código
     7. Generalizar tipos de archivo a encontrar
     8. Mejorar parámetros de consola
+
+    -- Para crear el zip sin compresión:
+        > zip -0 -r data.zip data/
 */
 use std::io::{self, Read};
 use std::fs::File;
