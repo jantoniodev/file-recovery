@@ -5,7 +5,7 @@
     2. Leer un archivo binario ✅
     3. Encontrar una secuencia de bytes ✅
     4. Leer completamente un archivo PNG ✅
-    5. Guardar la imagen encontrada en un archivo
+    5. Guardar la imagen encontrada en un archivo ✅
     6. Refactorizar y ordenar código
     7. Generalizar tipos de archivo a encontrar
     8. Mejorar parámetros de consola
@@ -13,7 +13,7 @@
     -- Para crear el zip sin compresión:
         > zip -0 -r data.zip data/
 */
-use std::io::{self, Read};
+use std::io::{self, Read, Write};
 use std::fs::File;
 
 enum State {
@@ -105,6 +105,7 @@ fn main() -> io::Result<()> {
     let mut buffer = [0; 1];
 
     let mut png = PNG::new();
+    let mut founds = 0;
 
     loop {
         let n = file.read(&mut buffer)?;
@@ -114,7 +115,9 @@ fn main() -> io::Result<()> {
 
         match png.step(buffer[..n][0]) {
             Some(image) => {
+                founds += 1;
                 println!("PNG: {:?} bytes", image.len());
+                save_image(image, founds);
             }
             None => {
 
@@ -123,5 +126,12 @@ fn main() -> io::Result<()> {
 
     }
 
+    println!("Found {} images", founds);
     Ok(())
+}
+
+fn save_image(image_bytes: Vec<u8>, number: i32) {
+    let file_name = format!("./found/image{}.png", number);
+    let mut file = File::create(file_name).unwrap();
+    let _ = file.write_all(&image_bytes);
 }
