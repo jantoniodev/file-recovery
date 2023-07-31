@@ -19,12 +19,12 @@ pub fn recover_png(filepath: &str, output: &str) -> io::Result<i32> {
         match png.step(buffer[..n][0]) {
             Some(image) => {
                 founds += 1;
-                println!("PNG: {:?} bytes", image.len());
                 let file_name = format!("image{}.png", founds);
+                println!("📁 PNG: {} {:?} bytes", file_name, image.len());
                 save_file(image, output, &file_name);
             }
             None => {
-
+                
             }
         }
     }

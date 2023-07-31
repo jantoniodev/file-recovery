@@ -28,7 +28,6 @@ impl PNG {
             State::SearchingInit => {
                 let found = self.check_init(byte);
                 if found {
-                    println!("Found png on {}", self.position - PNG::MAGIC_INIT.len() + 1);
                     self.state = State::SearchingEnd;
                 }
             }
