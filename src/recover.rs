@@ -9,9 +9,10 @@ pub fn recover_png(filepath: &str, output: &str) -> io::Result<i32> {
 
     let mut png = PNG::new();
     let mut founds = 0;
+    let mut byte: u64 = 0;
 
     loop {
-        let n = file.read(&mut buffer)?;
+        let n: usize = file.read(&mut buffer)?;
         if n == 0 {
             break;
         }
@@ -24,9 +25,12 @@ pub fn recover_png(filepath: &str, output: &str) -> io::Result<i32> {
                 save_file(image, output, &file_name);
             }
             None => {
-                
+
             }
         }
+
+        byte += 1;
+        print_progress(byte);
     }
 
     Ok(founds)
@@ -36,4 +40,10 @@ fn save_file(file_bytes: Vec<u8>, folder: &str, filename: &str) {
     let file_name = format!("{}/{}", folder, filename);
     let mut file = File::create(file_name).unwrap();
     let _ = file.write_all(&file_bytes);
+}
+
+fn print_progress(progress: u64) {
+    let megabytes = progress / 1000000;
+
+    print!("{:?} Mb\r", megabytes);
 }
